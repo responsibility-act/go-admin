@@ -10,9 +10,8 @@ import (
 	"github.com/GoAdminGroup/go-admin/modules/db/dialect"
 	"github.com/GoAdminGroup/go-admin/plugins/admin/modules/table"
 	"github.com/GoAdminGroup/go-admin/tests/common"
-	"github.com/GoAdminGroup/go-admin/tests/frameworks/fasthttp"
+
 	"github.com/gavv/httpexpect"
-	fasthttp2 "github.com/valyala/fasthttp"
 )
 
 func Cleaner(config config.DatabaseList) {
@@ -150,23 +149,13 @@ func BlackBoxTestSuit(t *testing.T, fn HandlerGenFn,
 	// Clean Data
 	cleaner(config)
 	// Test
-	if len(isFasthttp) > 0 && isFasthttp[0] {
-		tester(httpexpect.WithConfig(httpexpect.Config{
-			Client: &http.Client{
-				Transport: httpexpect.NewFastBinder(fasthttp.NewHandler(config, gens)),
-				Jar:       httpexpect.NewJar(),
-			},
-			Reporter: httpexpect.NewAssertReporter(t),
-		}))
-	} else {
-		tester(httpexpect.WithConfig(httpexpect.Config{
-			Client: &http.Client{
-				Transport: httpexpect.NewBinder(fn(config, gens)),
-				Jar:       httpexpect.NewJar(),
-			},
-			Reporter: httpexpect.NewAssertReporter(t),
-		}))
-	}
+	tester(httpexpect.WithConfig(httpexpect.Config{
+		Client: &http.Client{
+			Transport: httpexpect.NewBinder(fn(config, gens)),
+			Jar:       httpexpect.NewJar(),
+		},
+		Reporter: httpexpect.NewAssertReporter(t),
+	}))
 }
 
 type Tester func(e *httpexpect.Expect)

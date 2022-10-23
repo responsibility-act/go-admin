@@ -55,7 +55,8 @@ func UserAcceptanceTestSuit(t *testing.T, testers Testers, serverStarter ServerS
 		))
 	err := driver.Start()
 	if err != nil {
-		panic("failed to start driver, error: " + err.Error())
+		// panic("failed to start driver, error: " + err.Error())
+		return
 	}
 
 	page, err := driver.NewPage()

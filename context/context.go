@@ -522,8 +522,8 @@ type Handlers []Handler
 // support the route parameter. The route parameter will be recognized as
 // wildcard store into the RegUrl of Path struct. For example:
 //
-//         /user/:id      => /user/(.*)
-//         /user/:id/info => /user/(.*?)/info
+//	/user/:id      => /user/(.*)
+//	/user/:id/info => /user/(.*?)/info
 //
 // The RegUrl will be used to recognize the incoming path and find
 // the handler.
@@ -636,8 +636,8 @@ type RouterGroup struct {
 // support the route parameter. The route parameter will be recognized as
 // wildcard store into the RegUrl of Path struct. For example:
 //
-//         /user/:id      => /user/(.*)
-//         /user/:id/info => /user/(.*?)/info
+//	/user/:id      => /user/(.*)
+//	/user/:id/info => /user/(.*?)/info
 //
 // The RegUrl will be used to recognize the incoming path and find
 // the handler.
@@ -728,12 +728,11 @@ func (g *RouterGroup) Group(prefix string, middleware ...Handler) *RouterGroup {
 
 // slash fix the path which has wrong format problem.
 //
-// 	 ""      => "/"
-// 	 "abc/"  => "/abc"
-// 	 "/abc/" => "/abc"
-// 	 "/abc"  => "/abc"
-// 	 "/"     => "/"
-//
+//	""      => "/"
+//	"abc/"  => "/abc"
+//	"/abc/" => "/abc"
+//	"/abc"  => "/abc"
+//	"/"     => "/"
 func slash(prefix string) string {
 	prefix = strings.TrimSpace(prefix)
 	if prefix == "" || prefix == "/" {
